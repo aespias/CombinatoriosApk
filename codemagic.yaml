@@ -9,7 +9,12 @@ workflows:
       - name: Install Java 8
         script: |
           brew tap homebrew/cask-versions
-          brew install --cask temurin8
+          brew install --cask temurin@8
+          
+      - name: Set Java 8
+        script: |
+          export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+          export PATH=$JAVA_HOME/bin:$PATH
 
       - name: Install Android Command Line Tools
         script: |
@@ -17,7 +22,7 @@ workflows:
           export ANDROID_HOME=$HOME/Library/Android/sdk
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
           yes | sdkmanager --licenses
-          sdkmanager "build-tools;35.0.0" "platforms;android-31"
+          sdkmanager "build-tools;30.0.3" "platforms;android-31"
 
       - name: Build APK
         script: |
