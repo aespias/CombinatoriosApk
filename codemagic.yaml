@@ -5,20 +5,24 @@ workflows:
     environment:
       vars:
         BUILD_NUMBER: 1
-        ANDROID_HOME: $HOME/Library/Android/sdk
     scripts:
       - name: Install Java 8
         script: |
           brew tap homebrew/cask-versions
-          brew install --cask temurin8  # Asegúrate de que esto sea la versión correcta
-      - name: Install SDK Command-Line Tools
+          brew install --cask temurin8
+
+      - name: Install Android Command Line Tools
         script: |
-          brew install --cask android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          yes | sdkmanager --licenses  # Aceptar licencias
-          sdkmanager "platforms;android-31" "build-tools;31.0.0"  # Asegúrate de usar la versión correcta
+          brew install --cask android-commandlinetools
+          export ANDROID_HOME=$HOME/Library/Android/sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+          yes | sdkmanager --licenses
+          sdkmanager "build-tools;35.0.0" "platforms;android-31"
+
       - name: Build APK
         script: |
           buildozer -v android debug
+
     artifacts:
       - build/*.apk
+
