@@ -2,7 +2,7 @@ workflows:
   build_android:
     name: Build Android APK for AngelAPK
     environment:
-      python: 3.8  # Cambia a la versión que necesites
+      python: "3.8"  # Cambia a la versión que necesites, asegúrate de usar comillas
     scripts:
       - name: Install dependencies
         script: |
