@@ -1,2 +1,7 @@
 numpy
 pandas
+matplotlib
+seaborn
+scikit-learn
+tensorflow  # o keras, según lo que decidas usar
+colorama
