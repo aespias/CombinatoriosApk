@@ -1,0 +1,16 @@
+workflows:
+  build_android:
+    name: Build Android APK for AngelAPK
+    environment:
+      python: 3.8  # Cambia a la versión que necesites
+    scripts:
+      - name: Install dependencies
+        script: |
+          pip install -r requirements.txt  # Instala las dependencias
+
+      - name: Build APK
+        script: |
+          buildozer -v android debug  # Construye la APK
+
+    artifacts:
+      - bin/*.apk  # Ajusta esto según la ubicación de tu APK
