@@ -1,16 +1,24 @@
-version: 1.0
-
 workflows:
   android:
-    name: Android
+    name: Build Android APK with Buildozer
+    max_build_duration: 60
     environment:
-      python: "3.8"  # O la versión que estés usando
-      java: "8"  # Asegúrate de que esté configurado en Java 8
+      vars:
+        BUILD_NUMBER: 1
+        ANDROID_HOME: $HOME/Library/Android/sdk
     scripts:
-      - name: Install dependencies
+      - name: Install Java 8
         script: |
-          pip install -r requirements.txt
-      - name: Build the APK
+          brew tap homebrew/cask-versions
+          brew install --cask temurin8  # Asegúrate de que esto sea la versión correcta
+      - name: Install SDK Command-Line Tools
+        script: |
+          brew install --cask android-sdk
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --licenses  # Aceptar licencias
+          sdkmanager "platforms;android-31" "build-tools;31.0.0"  # Asegúrate de usar la versión correcta
+      - name: Build APK
         script: |
           buildozer -v android debug
-
+    artifacts:
+      - build/*.apk
